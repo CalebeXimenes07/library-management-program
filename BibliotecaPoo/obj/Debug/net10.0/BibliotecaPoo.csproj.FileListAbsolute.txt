@@ -12,3 +12,4 @@ C:\Users\Calebe Ximenes\Desktop\Programação\Projetos C#\BibliotecaPoo\Bibliote
 C:\Users\Calebe Ximenes\Desktop\Programação\Projetos C#\BibliotecaPoo\BibliotecaPoo\obj\Debug\net10.0\BibliotecaPoo.pdb
 C:\Users\Calebe Ximenes\Desktop\Programação\Projetos C#\BibliotecaPoo\BibliotecaPoo\obj\Debug\net10.0\BibliotecaPoo.genruntimeconfig.cache
 C:\Users\Calebe Ximenes\Desktop\Programação\Projetos C#\BibliotecaPoo\BibliotecaPoo\obj\Debug\net10.0\ref\BibliotecaPoo.dll
+C:\Users\Calebe Ximenes\Desktop\Programação\Projetos C#\BibliotecaPoo\BibliotecaPoo\obj\Debug\net10.0\BibliotecaPoo.sourcelink.json

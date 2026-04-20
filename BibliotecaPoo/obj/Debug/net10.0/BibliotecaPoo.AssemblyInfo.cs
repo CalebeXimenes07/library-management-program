@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BibliotecaPoo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38a977c6c709a77b18426bf88bc4f2ffce476b48")]
 [assembly: System.Reflection.AssemblyProductAttribute("BibliotecaPoo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BibliotecaPoo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

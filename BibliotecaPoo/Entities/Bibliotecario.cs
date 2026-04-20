@@ -1,32 +1,90 @@
-﻿using System.Data;
-using System.Threading.Channels;
+﻿public enum Especializacao
+{
+    Nenhuma,
+    Especialista,
+    Mestre,
+    Doutor
+}
+public enum GrauDependencia
+{
+    Primeira,
+    Segunda,
+    Terceira
 
+}
+
+public class Dependente
+{
+    public string Cpf { get; private set; }
+    public GrauDependencia GrauDependencia{ get; private set; }
+    public Dependente(string cpf, GrauDependencia grauDependencia)
+    {
+        Cpf = cpf;
+        GrauDependencia = grauDependencia;
+    }
+}
 public class Bibliotecario
 {
     public string NomeCompletoBibliotecario { get; private set; }
     public string Cpf { get; private set; }
     public string IdBibliotecario { get; private set; }
-    public string Telefone { get; private set; }
     public DateOnly DataNascimento { get; private set; }
     public UnidadeBiblioteca UnidadeBiblioteca { get; private set; }
+    public Especializacao Especializacao { get; private set; }
+    public IReadOnlyList<string> Telefones => _telefones.AsReadOnly();
+    public IReadOnlyList<Dependente> Dependentes => _dependentes.AsReadOnly();
+    List<string> _telefones = new List<string>();
+    List<Dependente> _dependentes = new List<Dependente>();
 
-    public Bibliotecario()
-    {
-
-    }
-
-    public Bibliotecario(string nomeCompletoBibliotecario, string cpf, string idBibliotecario, string telefone, DateOnly dataNascimento, UnidadeBiblioteca unidadeBiblioteca)
+    public int Idade => DateTime.Now.Year - DataNascimento.Year;
+    public Bibliotecario(string nomeCompletoBibliotecario, string cpf, string idBibliotecario, DateOnly dataNascimento, UnidadeBiblioteca unidadeBiblioteca, Especializacao especializacao)
     {
         NomeCompletoBibliotecario = nomeCompletoBibliotecario;
         Cpf = cpf;
         IdBibliotecario = idBibliotecario;
-        Telefone = telefone;
         DataNascimento = dataNascimento;
         UnidadeBiblioteca = unidadeBiblioteca;
+        Especializacao = especializacao;
     }
 
     public void Emprestimo(Exemplar exemplar, Cliente cliente) => Console.WriteLine($"Detalhes do empréstimo:\nCódigo do exemplar: {exemplar.IdExemplar}\nCliente: {cliente.Nome}");
 
-    public void SolicitarCompraLivros(ObraLiteraria obraLiteraria, int quantidadeExemplares, FornecedorEditora fornecedorEditora) => Console.WriteLine($"Detalhes do pedido de compra:\nQuantidade: {quantidadeExemplares}\nTitulo: {obraLiteraria.Titulo}\nId: {obraLiteraria.IdLivro}\nFornecedora: {fornecedorEditora.NomeFantasia}");
-    public void Supervisao(Bibliotecario bibliotecarioSupervisionado) => Console.WriteLine($"O bibliotecário {NomeCompletoBibliotecario} está supervisionando o bibliotecário {bibliotecarioSupervisionado.NomeCompletoBibliotecario}.");
+    public void AdicioneTelefone(string numero)
+    {
+        if (Telefones.Count() < 3)
+        {
+            _telefones.Add(numero);
+            Console.WriteLine($"O número {numero} foi adicionado com sucesso! ");
+        }
+        else
+        {
+            Console.WriteLine("O limite de telefones foi excedido! "); 
+        }
+    }
+    public void SolicitarCompraLivros(PedidoDeCompra pedidoDeCompra, int quantidadeExemplares)
+    {
+        Console.WriteLine($"Detalhes do pedido de compra:\nQuantidade: {quantidadeExemplares}");
+        foreach (var obras in pedidoDeCompra.ObrasLiterarias)
+        {
+            for (int i = 0; i < pedidoDeCompra.ObrasLiterarias.Count(); i++)
+            {
+                Console.WriteLine($"Obra #{i+1}:\nTitulo: {obras.Titulo}\nId: {obras.IdLivro}\nFornecedora: {pedidoDeCompra.FornecedorEditora.NomeFantasia}");
+            }
+        }
+
+    }
+    public void Supervisao(List<Bibliotecario> bibliotecariosSupervisionados)
+    {
+        Console.WriteLine($"O bibliotecário {NomeCompletoBibliotecario} está supervisionando os bibliotecários:");
+        foreach (var biblio in bibliotecariosSupervisionados)
+        {
+
+            Console.WriteLine($"{biblio.NomeCompletoBibliotecario}");
+        }
+    }
+    public void AdicionarDependente(string cpf, GrauDependencia grauDependencia)
+    {
+        Dependente dependente = new Dependente(cpf, grauDependencia);
+        _dependentes.Add(dependente);
+    }
 }
