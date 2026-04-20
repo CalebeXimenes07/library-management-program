@@ -5,9 +5,12 @@
     public string TelefoneUnidade { get; private set; }
     public string EnderecoUnidade { get; private set; }
     public List<Bibliotecario> Bibliotecarios { get; private set; } = new List<Bibliotecario>();
-    public UnidadeBiblioteca()
+    public UnidadeBiblioteca(string idUnidade, string nomeUnidade, string telefoneUnidade, string enderecoUnidade)
     {
-
+        IdUnidade = idUnidade;
+        NomeUnidade = nomeUnidade;
+        TelefoneUnidade = telefoneUnidade;
+        EnderecoUnidade = enderecoUnidade;
     }
 
     public UnidadeBiblioteca(string idUnidade, string nomeUnidade, string telefoneUnidade, string enderecoUnidade, List<Bibliotecario> bibliotecarios)

@@ -16,7 +16,7 @@ public enum GrauDependencia
 public class Dependente
 {
     public string Cpf { get; private set; }
-    public GrauDependencia GrauDependencia{ get; private set; }
+    public GrauDependencia GrauDependencia { get; private set; }
     public Dependente(string cpf, GrauDependencia grauDependencia)
     {
         Cpf = cpf;
@@ -47,8 +47,6 @@ public class Bibliotecario
         Especializacao = especializacao;
     }
 
-    public void Emprestimo(Exemplar exemplar, Cliente cliente) => Console.WriteLine($"Detalhes do empréstimo:\nCódigo do exemplar: {exemplar.IdExemplar}\nCliente: {cliente.Nome}");
-
     public void AdicioneTelefone(string numero)
     {
         if (Telefones.Count() < 3)
@@ -58,33 +56,39 @@ public class Bibliotecario
         }
         else
         {
-            Console.WriteLine("O limite de telefones foi excedido! "); 
+            Console.WriteLine("O limite de telefones foi excedido! ");
         }
     }
     public void SolicitarCompraLivros(PedidoDeCompra pedidoDeCompra, int quantidadeExemplares)
     {
         Console.WriteLine($"Detalhes do pedido de compra:\nQuantidade: {quantidadeExemplares}");
+        int i = 1;
         foreach (var obras in pedidoDeCompra.ObrasLiterarias)
         {
-            for (int i = 0; i < pedidoDeCompra.ObrasLiterarias.Count(); i++)
-            {
-                Console.WriteLine($"Obra #{i+1}:\nTitulo: {obras.Titulo}\nId: {obras.IdLivro}\nFornecedora: {pedidoDeCompra.FornecedorEditora.NomeFantasia}");
-            }
-        }
-
-    }
-    public void Supervisao(List<Bibliotecario> bibliotecariosSupervisionados)
-    {
-        Console.WriteLine($"O bibliotecário {NomeCompletoBibliotecario} está supervisionando os bibliotecários:");
-        foreach (var biblio in bibliotecariosSupervisionados)
-        {
-
-            Console.WriteLine($"{biblio.NomeCompletoBibliotecario}");
+            Console.WriteLine($"Obra #{i}:\nTitulo: {obras.Titulo}\nId: {obras.IdLivro}\nFornecedora: {pedidoDeCompra.FornecedorEditora.NomeFantasia}");
+            i++;
         }
     }
-    public void AdicionarDependente(string cpf, GrauDependencia grauDependencia)
+
+
+public void Supervisao(List<Bibliotecario> bibliotecariosSupervisionados)
+{
+    Console.WriteLine($"O bibliotecário {NomeCompletoBibliotecario} está supervisionando os bibliotecários:");
+    foreach (var biblio in bibliotecariosSupervisionados)
     {
-        Dependente dependente = new Dependente(cpf, grauDependencia);
-        _dependentes.Add(dependente);
+
+        Console.WriteLine($"{biblio.NomeCompletoBibliotecario}");
     }
+}
+public void AdicionarDependente(string cpf, GrauDependencia grauDependencia)
+{
+    Dependente dependente = new Dependente(cpf, grauDependencia);
+    _dependentes.Add(dependente);
+}
+public Emprestimo RealizarEmprestimo(Exemplar exemplar, Cliente cliente)
+{
+    var emprestimo = new Emprestimo(exemplar, cliente, this);
+    return emprestimo;
+
+}
 }

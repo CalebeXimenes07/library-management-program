@@ -18,5 +18,10 @@
     public void RenovarEmprestimo()
     {
      DataDevolucao = DataDevolucao.AddDays(7);
+        Console.WriteLine($"Nova data de devolução: {DataDevolucao}");
+    }
+    public override string ToString()
+    {
+        return $"Exemplar: {Exemplar.ObraLiteraria.Titulo}, Cliente: {Cliente.Nome}, Bibliotecário: {Bibliotecario.NomeCompletoBibliotecario}, Data Empréstimo: {DataEmprestimo}, Data Devolução: {DataDevolucao}";
     }
 }
