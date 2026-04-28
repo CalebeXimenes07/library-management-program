@@ -10,13 +10,13 @@ public enum GrauDependencia
     Primeira,
     Segunda,
     Terceira
-
 }
 
 public class Dependente
 {
     public string Cpf { get; private set; }
     public GrauDependencia GrauDependencia { get; private set; }
+
     public Dependente(string cpf, GrauDependencia grauDependencia)
     {
         Cpf = cpf;
@@ -35,8 +35,8 @@ public class Bibliotecario
     public IReadOnlyList<Dependente> Dependentes => _dependentes.AsReadOnly();
     List<string> _telefones = new List<string>();
     List<Dependente> _dependentes = new List<Dependente>();
-
     public int Idade => DateTime.Now.Year - DataNascimento.Year;
+
     public Bibliotecario(string nomeCompletoBibliotecario, string cpf, string idBibliotecario, DateOnly dataNascimento, UnidadeBiblioteca unidadeBiblioteca, Especializacao especializacao)
     {
         NomeCompletoBibliotecario = nomeCompletoBibliotecario;
@@ -76,7 +76,7 @@ public void Supervisao(List<Bibliotecario> bibliotecariosSupervisionados)
     Console.WriteLine($"O bibliotecário {NomeCompletoBibliotecario} está supervisionando os bibliotecários:");
     foreach (var biblio in bibliotecariosSupervisionados)
     {
-
+        
         Console.WriteLine($"{biblio.NomeCompletoBibliotecario}");
     }
 }

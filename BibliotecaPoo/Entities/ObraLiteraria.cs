@@ -6,10 +6,6 @@ public class ObraLiteraria
     public int AnoPublicacao { get; private set; }
     public string Titulo { get; private set; }
     public Genero Genero { get; private set; }
-    public ObraLiteraria()
-    {
-
-    }
     public ObraLiteraria(string idLivro, string autor, int anoPublicacao, string titulo, Genero genero)
     {
         IdLivro = idLivro;
