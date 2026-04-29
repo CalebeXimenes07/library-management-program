@@ -1,88 +1,42 @@
-﻿var biblioRepo = new BibliotecarioRepository();
-var emprestRepo = new EmprestimoRepository();
-var exemplarRepo = new ExemplarRepository();
-var clienteRepo = new ClienteRepository();
-var obraRepo = new ObraLiterariaRepository();
+using System;
 
-StatusPedido sp = StatusPedido.Aguardando;
-Especializacao m = Especializacao.Mestre;
-GrauDependencia grauDep = GrauDependencia.Primeira;
+LibrarySystem.Run();
 
-Genero g = new GeneroNaoFiccao(21, "Biomedicina", "Saúde");
-
-
-ObraLiteraria obra1 = new ObraLiteraria("985", "Machado de Assis", 1889, "Dom Casmurro", g);
-obraRepo.Adicionar(obra1);
-var listaObra = obraRepo.ObterTodos().ToList();
-
-ObraLiteraria obra2 = new ObraLiteraria("985", "Machado de Assis", 1889, "Quincas Borba", g);
-
-Exemplar e = new Exemplar(obra1);
-exemplarRepo.Adicionar(e);
-var listaExemplares = exemplarRepo.ObterTodos().ToList();
-
-UnidadeBiblioteca ub = new UnidadeBiblioteca("1", "Clarice Lispector", "8198888-8888", "Paulista - PE");
-
-Bibliotecario b1 = new Bibliotecario("Saulo", "123", "2", DateOnly.Parse("13-08-2007"), ub, m);
-Bibliotecario b2 = new Bibliotecario("Judas", "123", "2", DateOnly.Parse("13-08-2007"), ub, m);
-Bibliotecario b3 = new Bibliotecario("Carlos", "123", "2", DateOnly.Parse("13-08-2007"), ub, m);
-biblioRepo.Adicionar(b1);
-biblioRepo.Adicionar(b2);
-biblioRepo.Adicionar(b3);
-var listaBiblio = biblioRepo.ObterTodos().ToList();
-
-FornecedorEditora fe = new FornecedorEditora("1230001", "Editora Menezes", "819999-9999");
-
-
-PedidoDeCompra pc = new PedidoDeCompra("Pedido A", 23, DateTime.Now, 950, listaObra, fe, sp);
-
-Professor prof = new Professor("Paulo", "756", "Exatas");
-Aluno aluno = new Aluno("João", "756", "132");
-Pesquisador pesq = new Pesquisador("Pedro", "064", "Humanas", "909");
-clienteRepo.Adicionar(prof);
-clienteRepo.Adicionar(aluno);
-clienteRepo.Adicionar(pesq);
-var listaClientes = clienteRepo.ObterTodos().ToList();
-
-var emprestimo = new Emprestimo(e, aluno, b1);
-emprestRepo.Adicionar(emprestimo);
-var listaEmprestimos = emprestRepo.ObterTodos().ToList();
-
-//Console.WriteLine("Bibliotecários: ");
-//foreach (var biblio in listaBiblio)
-//{
-//    Console.WriteLine(biblio.NomeCompletoBibliotecario);
-//}
-Console.WriteLine();
-Console.WriteLine("Obra antes: ");
-foreach (var obras in listaObra)
+public static class LibrarySystem
 {
-    Console.WriteLine(obras.Titulo);
-}
-obraRepo.Atualizar(obra1, obra2);
-listaObra = obraRepo.ObterTodos().ToList();
+    private static readonly BibliotecarioRepository _bibRepo = new();
+    private static readonly EmprestimoRepository _empRepo = new();
+    private static readonly ClienteRepository _cliRepo = new();
+    private static readonly ObraLiterariaRepository _obrRepo = new();
 
-Console.WriteLine();
-Console.WriteLine("Obra depois: ");
-foreach (var obras in listaObra)
-{
-    Console.WriteLine(obras.Titulo);
+    public static void Run()
+    {
+        Seed();
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("=== SISTEMA DE BIBLIOTECA ===\n");
+            Console.WriteLine("1. Obras Literárias");
+            Console.WriteLine("2. Clientes");
+            Console.WriteLine("3. Empréstimos");
+            Console.WriteLine("0. Sair");
+            Console.Write("\nOpção: ");
+
+            switch (Console.ReadLine())
+            {
+                case "1": Menu.MenuObras(_obrRepo); break;
+                case "2": Menu.MenuClientes(_cliRepo); break;
+                case "3": Menu.MenuEmprestimos(_empRepo, _cliRepo, _bibRepo); break;
+                case "0": return;
+                default: Console.WriteLine("Opção inválida! Teclado para continuar."); Console.ReadKey(); break;
+            }
+        }
+    }
+
+    private static void Seed()
+    {
+        _bibRepo.Adicionar(new Bibliotecario("Admin", "000.000.000-00", "B01", new DateOnly(1990, 1, 1), null!, Especializacao.Especialista));
+        _obrRepo.Adicionar(new ObraLiteraria("101", "J.K. Rowling", 1997, "Harry Potter", new GeneroFiccao(1, "Fantasia", "")));
+        _cliRepo.Adicionar(new Aluno("João Silva", "111.111.111-11", "2024001"));
+    }
 }
-//Console.WriteLine(); 
-//Console.WriteLine("Clientes: ");
-//foreach (var cliente in listaClientes)
-//{
-//    Console.WriteLine(cliente.Nome);
-//}
-//Console.WriteLine();
-//Console.WriteLine("Exemplares: ");
-//foreach (var exemplar in listaExemplares)
-//{
-//    Console.WriteLine(exemplar.ObraLiteraria.Titulo);
-//}
-//Console.WriteLine();
-//Console.WriteLine("Emprestimos: ");
-//foreach (var emprestimos in listaEmprestimos)
-//{
-//    Console.WriteLine(emprestimos);
-//}
