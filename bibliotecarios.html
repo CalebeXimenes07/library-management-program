@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leia Mais — Bibliotecários</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">
+        <i class="bi bi-journal-bookmark-fill"></i>
+      </div>
+      <span class="nav-brand-name">Leia Mais</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">
+        <i class="bi bi-grid-fill"></i>
+        Dashboard
+      </a>
+      <a href="clientes.html" class="nav-link">
+        <i class="bi bi-people-fill"></i>
+        Clientes
+      </a>
+      <a href="acervo.html" class="nav-link">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        Acervo
+      </a>
+      <a href="bibliotecarios.html" class="nav-link active">
+        <i class="bi bi-person-badge-fill"></i>
+        Bibliotecários
+      </a>
+      <a href="emprestimos.html" class="nav-link">
+        <i class="bi bi-arrow-left-right"></i>
+        Empréstimos
+      </a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+        Sair
+      </a>
+    </div>
+  </nav>
+
+  <main class="page">
+
+    <div class="page-header">
+      <h1 class="page-title">Gestão de Bibliotecários</h1>
+      <p class="page-subtitle">Cadastre e gerencie a equipe da biblioteca.</p>
+    </div>
+
+    <div class="two-col">
+
+      
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Novo Bibliotecário</span>
+        </div>
+        <div class="card-body">
+
+         
+          <form id="form-bibliotecario" autocomplete="off">
+
+            <div class="form-group">
+              <label class="form-label" for="biblio-nome">Nome completo <span class="req">*</span></label>
+              <input id="biblio-nome" name="nome" type="text" class="form-control"
+                     placeholder="Ex: Antonio Melo" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="biblio-cpf">CPF <span class="req">*</span></label>
+              <input id="biblio-cpf" name="cpf" type="text" class="form-control"
+                     placeholder="Ex: 11122233344" maxlength="11" required />
+              <p class="form-hint">O CPF é usado para autenticar empréstimos no balcão.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="biblio-id">ID interno <span class="req">*</span></label>
+              <input id="biblio-id" name="idInterno" type="text" class="form-control"
+                     placeholder="Ex: BIB001" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="biblio-nascimento">Data de nascimento</label>
+              <input id="biblio-nascimento" name="dataNascimento" type="date" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="biblio-especializacao">Especialização</label>
+             
+              <select id="biblio-especializacao" name="especializacao" class="form-control">
+                <option value="Nenhuma">Nenhuma</option>
+                <option value="Especialista">Especialista</option>
+                <option value="Mestre">Mestre</option>
+                <option value="Doutor">Doutor</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-purple">
+              <i class="bi bi-person-plus-fill"></i>
+              Cadastrar Bibliotecário
+            </button>
+
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Funcionários Ativos</span>
+          <span class="badge-count" id="count-bibliotecarios">—</span>
+        </div>
+
+        <div class="table-wrap">
+       
+          <table id="tabela-bibliotecarios" aria-label="Lista de bibliotecários">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>ID Interno</th>
+                <th>Especialização</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-bibliotecarios">
+              <tr data-biblio-id="">
+                <td>
+                  <div class="avatar-cell">
+                    <div class="avatar" style="background:var(--color-purple-light);color:var(--color-purple);">A</div>
+                    Antonio Melo
+                  </div>
+                </td>
+                <td class="td-muted">11122233344</td>
+                <td class="td-muted">BIB001</td>
+                <td><span class="pill pill-gray">Nenhuma</span></td>
+                <td class="td-actions">
+                  <button class="btn-icon" title="Remover bibliotecário" aria-label="Remover Mario">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box" style="margin:0 22px 22px;">
+          O CPF do bibliotecário é usado para autenticar empréstimos no balcão.
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

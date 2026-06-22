@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leia Mais — Empréstimos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">
+        <i class="bi bi-journal-bookmark-fill"></i>
+      </div>
+      <span class="nav-brand-name">Leia Mais</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">
+        <i class="bi bi-grid-fill"></i>
+        Dashboard
+      </a>
+      <a href="clientes.html" class="nav-link">
+        <i class="bi bi-people-fill"></i>
+        Clientes
+      </a>
+      <a href="acervo.html" class="nav-link">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        Acervo
+      </a>
+      <a href="bibliotecarios.html" class="nav-link">
+        <i class="bi bi-person-badge-fill"></i>
+        Bibliotecários
+      </a>
+      <a href="emprestimos.html" class="nav-link active">
+        <i class="bi bi-arrow-left-right"></i>
+        Empréstimos
+      </a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+        Sair
+      </a>
+    </div>
+  </nav>
+
+  <main class="page">
+
+    <div class="page-header">
+      <h1 class="page-title">Balcão de Empréstimos</h1>
+      <p class="page-subtitle">Registre saídas, renove prazos e finalize devoluções.</p>
+    </div>
+
+    <div class="two-col">
+
+      <div style="display:flex; flex-direction:column; gap:20px;">
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Novo Empréstimo</span>
+          </div>
+          <div class="card-body">
+
+          
+            <form id="form-emprestimo" autocomplete="off">
+
+              <div class="form-group">
+                <label class="form-label" for="emp-cpf-biblio">CPF do bibliotecário <span class="req">*</span></label>
+                <input id="emp-cpf-biblio" name="cpfBibliotecario" type="text" class="form-control"
+                       placeholder="Ex: 11122233344" maxlength="11" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="emp-cpf-cliente">CPF do cliente <span class="req">*</span></label>
+                <input id="emp-cpf-cliente" name="cpfCliente" type="text" class="form-control"
+                       placeholder="Ex: 12345678900" maxlength="11" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="emp-id-exemplar">ID do exemplar <span class="req">*</span></label>
+                <input id="emp-id-exemplar" name="idExemplar" type="text" class="form-control"
+                       placeholder="Ex: EX001" required />
+              </div>
+
+              <button type="submit" class="btn btn-orange">
+                <i class="bi bi-arrow-left-right"></i>
+                Confirmar Empréstimo
+              </button>
+
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Exemplares Disponíveis</span>
+            <span class="badge-count" id="count-disponiveis">—</span>
+          </div>
+          <div class="card-body" style="padding-top:14px;">
+          
+            <div class="exemplar-list" id="lista-disponiveis">
+              <div class="exemplar-item" data-exemplar-id="EX001">
+                <span class="status-dot"></span>
+                <span class="exemplar-item-id">EX001</span>
+                <span class="exemplar-item-obra">Dom Casmurro</span>
+              </div>
+              <div class="exemplar-item" data-exemplar-id="EX002">
+                <span class="status-dot"></span>
+                <span class="exemplar-item-id">EX002</span>
+                <span class="exemplar-item-obra">Kamasutra</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Empréstimos Ativos</span>
+          <span class="badge-count" id="count-emprestimos">—</span>
+        </div>
+
+        <div class="table-wrap">
+         
+          <table id="tabela-emprestimos" aria-label="Empréstimos ativos">
+            <thead>
+              <tr>
+                <th>Exemplar / Obra</th>
+                <th>Cliente</th>
+                <th>Bibliotecário</th>
+                <th>Empréstimo</th>
+                <th>Devolução</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-emprestimos">
+              <tr id="tr-empty-emprestimos">
+                <td colspan="6">
+                  <div class="empty-state">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <p>Nenhum empréstimo ativo no momento.</p>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  
+  <script>
+    document.querySelectorAll('.exemplar-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => {
+        const idExemplar = item.dataset.exemplarId;
+        document.getElementById('emp-id-exemplar').value = idExemplar;
+        document.getElementById('emp-id-exemplar').focus();
+      });
+    });
+  </script>
+
+</body>
+</html>

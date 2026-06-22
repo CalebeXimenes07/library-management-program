@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leia Mais — Acervo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">
+        <i class="bi bi-journal-bookmark-fill"></i>
+      </div>
+      <span class="nav-brand-name">Leia Mais</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">
+        <i class="bi bi-grid-fill"></i>
+        Dashboard
+      </a>
+      <a href="clientes.html" class="nav-link">
+        <i class="bi bi-people-fill"></i>
+        Clientes
+      </a>
+      <a href="acervo.html" class="nav-link active">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        Acervo
+      </a>
+      <a href="bibliotecarios.html" class="nav-link">
+        <i class="bi bi-person-badge-fill"></i>
+        Bibliotecários
+      </a>
+      <a href="emprestimos.html" class="nav-link">
+        <i class="bi bi-arrow-left-right"></i>
+        Empréstimos
+      </a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+        Sair
+      </a>
+    </div>
+  </nav>
+
+  <main class="page">
+
+    <div class="page-header">
+      <h1 class="page-title">Acervo da Biblioteca</h1>
+      <p class="page-subtitle">Gerencie obras literárias e as cópias físicas (exemplares).</p>
+    </div>
+
+    <div class="two-col">
+
+      <div style="display:flex; flex-direction:column; gap:20px;">
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Cadastrar Obra</span>
+          </div>
+          <div class="card-body">
+         
+            <form id="form-obra" autocomplete="off">
+
+              <div class="form-group">
+                <label class="form-label" for="obra-titulo">Título <span class="req">*</span></label>
+                <input id="obra-titulo" name="titulo" type="text" class="form-control"
+                       placeholder="Ex: Dom Casmurro" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="obra-autor">Autor <span class="req">*</span></label>
+                <input id="obra-autor" name="autor" type="text" class="form-control"
+                       placeholder="Ex: Machado de Assis" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="obra-ano">Ano de publicação <span class="req">*</span></label>
+                <input id="obra-ano" name="anoPublicacao" type="number" class="form-control"
+                       placeholder="Ex: 1899" min="1" max="9999" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="obra-tipo-genero">Tipo de gênero</label>
+               
+                <select id="obra-tipo-genero" name="tipoGenero" class="form-control">
+                  <option value="ficcao">Ficção</option>
+                  <option value="naoFiccao">Não Ficção</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="obra-nome-genero">Nome do gênero</label>
+                <input id="obra-nome-genero" name="nomeGenero" type="text" class="form-control"
+                       placeholder="Ex: Romance, Policial, História" />
+              </div>
+
+              <div class="form-group" id="grupo-estilo">
+                <label class="form-label" for="obra-estilo">Estilo narrativo</label>
+                <input id="obra-estilo" name="estiloNarrativo" type="text" class="form-control"
+                       placeholder="Ex: Realismo, Modernismo" />
+              </div>
+
+              <div class="form-group" id="grupo-area-estudo" style="display:none;">
+                <label class="form-label" for="obra-area-estudo">Área de estudo</label>
+                <input id="obra-area-estudo" name="areaEstudo" type="text" class="form-control"
+                       placeholder="Ex: História, Filosofia" />
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i>
+                Cadastrar Obra
+              </button>
+
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Gerar Exemplar</span>
+          </div>
+          <div class="card-body">
+            <p class="form-hint" style="margin-bottom:14px;">Informe o ID de uma obra já cadastrada para criar uma cópia física.</p>
+           
+            <form id="form-exemplar" autocomplete="off">
+
+              <div class="form-group">
+                <label class="form-label" for="exemplar-obra-id">ID da obra <span class="req">*</span></label>
+                <input id="exemplar-obra-id" name="obraId" type="text" class="form-control"
+                       placeholder="Ex: 1 ou abc123" required />
+              </div>
+
+              <button type="submit" class="btn btn-green">
+                <i class="bi bi-box-seam-fill"></i>
+                Gerar Exemplar
+              </button>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Catálogo</span>
+        </div>
+        <div class="card-body" style="padding-top:14px; padding-bottom:14px;">
+
+          <div class="tab-group" role="tablist">
+            <button class="tab-btn active" id="tab-obras" role="tab" aria-selected="true"
+                    aria-controls="painel-obras">
+              Obras <span class="badge-count" id="count-obras" style="margin-left:6px;">—</span>
+            </button>
+            <button class="tab-btn" id="tab-exemplares" role="tab" aria-selected="false"
+                    aria-controls="painel-exemplares">
+              Exemplares <span class="badge-count" id="count-exemplares" style="margin-left:6px;">—</span>
+            </button>
+          </div>
+
+          <div id="painel-obras" role="tabpanel" aria-labelledby="tab-obras">
+            <div class="table-wrap">
+              <table id="tabela-obras" aria-label="Lista de obras">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th>Gênero</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-obras">
+                  <tr data-obra-id="">
+                    <td class="td-muted">1</td>
+                    <td><strong>Dom Casmurro</strong></td>
+                    <td class="td-muted">Machado de Assis</td>
+                    <td class="td-muted">1899</td>
+                    <td><span class="pill pill-purple">Romance</span></td>
+                    <td class="td-actions">
+                      <button class="btn-icon" title="Remover obra" aria-label="Remover Dom Casmurro">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-obra-id="">
+                    <td class="td-muted">2</td>
+                    <td><strong>Kamasutra</strong></td>
+                    <td class="td-muted">Filipe Luis</td>
+                    <td class="td-muted">278</td>
+                    <td><span class="pill pill-teal">História</span></td>
+                    <td class="td-actions">
+                      <button class="btn-icon" title="Remover obra" aria-label="Remover 1822">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="painel-exemplares" role="tabpanel" aria-labelledby="tab-exemplares" style="display:none;">
+            <div class="table-wrap">
+              <table id="tabela-exemplares" aria-label="Lista de exemplares">
+                <thead>
+                  <tr>
+                    <th>ID Exemplar</th>
+                    <th>Obra</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-exemplares">
+                  <tr data-exemplar-id="">
+                    <td><strong>EX001</strong></td>
+                    <td class="td-muted">Dom Casmurro</td>
+                    <td><span class="status-dot">Disponível</span></td>
+                    <td class="td-actions">
+                      <button class="btn-icon" title="Remover exemplar" aria-label="Remover EX001">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-exemplar-id="">
+                    <td><strong>EX002</strong></td>
+                    <td class="td-muted">Kamasutra</td>
+                    <td><span class="status-dot">Disponível</span></td>
+                    <td class="td-actions">
+                      <button class="btn-icon" title="Remover exemplar" aria-label="Remover EX002">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const tabObras      = document.getElementById('tab-obras');
+    const tabExemplares = document.getElementById('tab-exemplares');
+    const painelObras      = document.getElementById('painel-obras');
+    const painelExemplares = document.getElementById('painel-exemplares');
+
+    tabObras.addEventListener('click', () => {
+      tabObras.classList.add('active');       tabObras.setAttribute('aria-selected','true');
+      tabExemplares.classList.remove('active'); tabExemplares.setAttribute('aria-selected','false');
+      painelObras.style.display = '';
+      painelExemplares.style.display = 'none';
+    });
+
+    tabExemplares.addEventListener('click', () => {
+      tabExemplares.classList.add('active');  tabExemplares.setAttribute('aria-selected','true');
+      tabObras.classList.remove('active');      tabObras.setAttribute('aria-selected','false');
+      painelObras.style.display = 'none';
+      painelExemplares.style.display = '';
+    });
+
+    const selectGenero    = document.getElementById('obra-tipo-genero');
+    const grupoEstilo     = document.getElementById('grupo-estilo');
+    const grupoAreaEstudo = document.getElementById('grupo-area-estudo');
+
+    selectGenero.addEventListener('change', () => {
+      const isFiccao = selectGenero.value === 'ficcao';
+      grupoEstilo.style.display     = isFiccao ? '' : 'none';
+      grupoAreaEstudo.style.display = isFiccao ? 'none' : '';
+    });
+  </script>
+
+</body>
+</html>
