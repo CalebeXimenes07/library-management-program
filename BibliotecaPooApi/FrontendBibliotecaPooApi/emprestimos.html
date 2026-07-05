@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leia Mais — Empréstimos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body onload="verEmprestimos()">
+
+    <nav class="nav">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-brand-icon">
+                <i class="bi bi-journal-bookmark-fill"></i>
+            </div>
+            <span class="nav-brand-name">Leia Mais</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">
+                <i class="bi bi-grid-fill"></i>
+                Dashboard
+            </a>
+            <a href="clientes.html" class="nav-link">
+                <i class="bi bi-people-fill"></i>
+                Clientes
+            </a>
+            <a href="acervo.html" class="nav-link">
+                <i class="bi bi-journal-bookmark-fill"></i>
+                Acervo
+            </a>
+            <a href="bibliotecarios.html" class="nav-link">
+                <i class="bi bi-person-badge-fill"></i>
+                Bibliotecários
+            </a>
+            <a href="emprestimos.html" class="nav-link active">
+                <i class="bi bi-arrow-left-right"></i>
+                Empréstimos
+            </a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html" class="btn-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                Sair
+            </a>
+        </div>
+    </nav>
+
+    <main class="page">
+
+        <div class="page-header">
+            <h1 class="page-title">Balcão de Empréstimos</h1>
+            <p class="page-subtitle">Registre saídas, renove prazos e finalize devoluções.</p>
+        </div>
+
+        <div class="two-col">
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Novo Empréstimo</span>
+                    </div>
+                    <div class="card-body">
+
+                        <form id="form-emprestimo" autocomplete="off">
+
+                            <div class="form-group">
+                                <label class="form-label" for="emp-cpf-biblio">CPF do bibliotecário <span class="req">*</span></label>
+                                <input id="emp-cpf-biblio" type="text" class="form-control"
+                                       placeholder="Ex: 11122233344" maxlength="11" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="emp-cpf-cliente">CPF do cliente <span class="req">*</span></label>
+                                <input id="emp-cpf-cliente" type="text" class="form-control"
+                                       placeholder="Ex: 12345678900" maxlength="11" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="emp-id-exemplar">Código do exemplar <span class="req">*</span></label>
+                                <input id="emp-id-exemplar" type="text" class="form-control"
+                                       placeholder="Ex: e1b2c3d4" required />
+                            </div>
+
+                            <button class="btn btn-orange" onclick="salvarEmprestimo(event)">
+                                <i class="bi bi-arrow-left-right"></i>
+                                Confirmar Empréstimo
+                            </button>
+
+                            <div id="resultado" style="margin-top: 15px; font-weight: bold; text-align: center; font-size: 14px;"></div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Empréstimos Ativos</span>
+                    <div>
+                        <span class="badge-count" id="count-emprestimos" style="margin-right: 10px;">0</span>
+                        <button class="btn-sm btn-sm-blue" onclick="verEmprestimos()">
+                            <i class="bi bi-arrow-clockwise"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="tabela-emprestimos" aria-label="Empréstimos ativos">
+                        <thead>
+                            <tr>
+                                <th>Cód. Empréstimo</th>
+                                <th>Exemplar</th>
+                                <th>Cliente (CPF)</th>
+                                <th>Data Saída</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-emprestimos">
+                            <tr id="tr-empty-emprestimos">
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <i class="bi bi-arrow-left-right"></i>
+                                        <p>Nenhum empréstimo ativo no momento.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+    async function salvarEmprestimo(event) {
+        event.preventDefault();
+
+        const idExe = document.getElementById('emp-id-exemplar').value;
+        const cpfBiblio = document.getElementById('emp-cpf-biblio').value;
+        const cpfCli= document.getElementById('emp-cpf-cliente').value;
+
+        const dados = {
+            idExemplar: idExe,
+            cpfBibliotecario: cpfBiblio,
+            cpfCliente: cpfCli
+        };
+
+        const divResultado = document.getElementById('resultado');
+        divResultado.innerHTML = "⏳ Enviando para a API...";
+        divResultado.style.color = "var(--color-text-muted)";
+
+        try {
+            const resposta = await fetch('http://localhost:5199/api/Emprestimo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+
+            if (resposta.ok) {
+                divResultado.innerHTML = "✅ Sucesso! Empréstimo registrado.";
+                divResultado.style.color = "var(--color-green)";
+
+                document.getElementById('form-emprestimo').reset();
+                verEmprestimos();
+
+                setTimeout(() => divResultado.innerHTML = "", 4000);
+            } else {
+                let erro = await resposta.text();
+
+                if (erro.includes("System.Exception:")) {
+                    erro = erro.split("System.Exception:")[1].split("at ")[0].trim();
+                } else if (erro.length > 80) {
+                    erro = erro.substring(0, 80) + "...";
+                }
+
+                divResultado.innerHTML = "❌ " + erro;
+                divResultado.style.color = "var(--color-red)";
+            }
+        } catch (error) {
+            divResultado.innerHTML = "🚨 Erro de conexão. A API está rodando no terminal?";
+            divResultado.style.color = "var(--color-red)";
+        }
+    }
+
+    async function verEmprestimos() {
+        const tbody = document.getElementById('tbody-emprestimos');
+        const countBadge = document.getElementById('count-emprestimos');
+
+        try {
+            const resposta = await fetch('http://localhost:5199/api/Emprestimo', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (resposta.ok) {
+                const emprestimos = await resposta.json();
+
+                countBadge.innerText = emprestimos.length;
+                tbody.innerHTML = "";
+
+                if (emprestimos.length === 0) {
+                    tbody.innerHTML = `
+                      <tr>
+                        <td colspan="5">
+                          <div class="empty-state">
+                            <i class="bi bi-arrow-left-right"></i>
+                            <p>Nenhum empréstimo cadastrado.</p>
+                          </div>
+                        </td>
+                      </tr>`;
+                    return;
+                }
+
+                emprestimos.forEach(emp => {
+                    let dataFormatada = emp.dataEmprestimo ? new Date(emp.dataEmprestimo).toLocaleDateString('pt-BR') : "N/A";
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="font-weight: 600;">${emp.id}</td>
+                            <td>
+                                <span class="pill pill-blue">${emp.exemplar.idExemplar}</span>
+                            </td>
+                            <td>${emp.cliente.nome} <br> <small style="color: var(--color-text-muted);">${emp.cliente.cpf}</small></td>
+                            <td>${dataFormatada}</td>
+                            <td class="td-actions">
+                              <button class="btn-icon" title="Registrar Devolução" onclick="devolverEmprestimo(${emp.id})">
+                                <i class="bi bi-check-circle-fill" style="color: var(--color-green);"></i>
+                              </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="5" style="color: var(--color-red); text-align: center;">🚨 Erro ao buscar os dados da API.</td></tr>`;
+        }
+    }
+
+    async function devolverEmprestimo(id) {
+        const divResultado = document.getElementById('resultado');
+        divResultado.innerHTML = "⏳ Processando devolução...";
+        divResultado.style.color = "var(--color-text-muted)";
+
+        try {
+            const resposta = await fetch(`http://localhost:5199/api/Emprestimo/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (resposta.ok) {
+                divResultado.innerHTML = "✅ Devolução registrada com sucesso!";
+                divResultado.style.color = "var(--color-green)";
+                verEmprestimos();
+
+                setTimeout(() => divResultado.innerHTML = "", 4000);
+            } else {
+                const erro = await resposta.text();
+                divResultado.innerHTML = "❌ Erro ao devolver: " + erro;
+                divResultado.style.color = "var(--color-red)";
+            }
+        } catch (error) {
+            divResultado.innerHTML = "🚨 Erro de conexão com a API.";
+            divResultado.style.color = "var(--color-red)";
+        }
+    }
+    </script>
+</body>
+</html>

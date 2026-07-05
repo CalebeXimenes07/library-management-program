@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leia Mais — Acesso</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-page">
+
+  <div class="login-card">
+
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <i class="bi bi-journal-bookmark-fill"></i>
+      </div>
+      <span class="login-logo-name">Leia Mais</span>
+      <span class="login-logo-sub">Acesso ao sistema</span>
+    </div>
+
+    <form id="form-login" autocomplete="off">
+
+      <div class="form-group">
+        <label class="form-label" for="login-usuario">Usuário ou CPF</label>
+        <input
+          id="login-usuario"
+          name="usuario"
+          type="text"
+          class="form-control"
+          placeholder="Ex: admin ou 12345678900"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-senha">Senha</label>
+        <input
+          id="login-senha"
+          name="senha"
+          type="password"
+          class="form-control"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:8px;" id="btn-entrar">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Entrar
+      </button>
+
+    </form>
+
+    <p class="login-demo-hint">Use qualquer usuário e senha para acessar o sistema de demonstração.</p>
+
+  </div>
+
+ 
+  <script>
+    document.getElementById('form-login').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = 'index.html';
+    });
+  </script>
+
+</body>
+</html>
